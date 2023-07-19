@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io/ioutil"
+	"strings"
+)
 
 type deck []string
 
@@ -28,4 +32,12 @@ func (d deck) print() {
 
 func deal(d deck, handSize int) (deck, deck) { //the (deck, deck) is telling Go that we would like to return two values that are the same type
 	return d[:handSize], d[handSize:] //it is important to state the two types of values we want to get as Go needs to see that we want 2 values
+}
+
+func (d deck) toString() string {
+	return strings.Join([]string(d), ",")
+}
+
+func (d deck) saveToFile(filename string) error {
+	return ioutil.WriteFile(filename, []byte(d.toString()), 0666)
 }
